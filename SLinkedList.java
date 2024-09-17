@@ -10,11 +10,7 @@ public class SLinkedList {
         head = null;
         size = 0;
     }
-    
-    public Node getHead() {
-    	return this.head;
-    }
-
+	
     public void addElement(int newElement) {
     	Node newElem = new Node(newElement,this.head);
     	this.head = newElem;
@@ -22,11 +18,12 @@ public class SLinkedList {
     }
     
     public Node findPrevious(Node x) {
-    	Node target = this.head;
-    	while(target.getNext() == x) {
-    		target = target.getNext();
-    	}
-    	return target;
+	Node target = this.head;
+	if (target == null || target == x) return null;
+	while(target.getNext() != x) {
+	    target = target.getNext();
+	}
+	return target;
     }
     
     public Node findSecondLast() {
@@ -66,22 +63,54 @@ public class SLinkedList {
     	}    	
     }
     
-    //faire pointer le noeud avant x vers y, 
-    //faire pointer le noeud avant y vers x, 
-    //faire pointer y vers le suivant de x
-    //faire pointer x vers le suivant de y
+    /*faire pointer le noeud avant x vers y, 
+    faire pointer le noeud avant y vers x, 
+    faire pointer y vers le suivant de x
+    faire pointer x vers le suivant de y*/
     public void exchange(Node x, Node y) {
-    	
-    	findPrevious(x).setNext(y);
-    	findPrevious(y).setNext(x);
-    	if (x == head) {
-    		this.head=y;
-    	}
-    	if (y == head) {
-    		this.head=x;
-    	}
-    	y.setNext(x.getNext());
-    	x.setNext(y.getNext());
+    if (x == y) return; 
+
+    Node prevX = findPrevious(x);
+    Node prevY = findPrevious(y);
+    
+    if (x == head) {
+        head = y;
+    } else {
+        prevX.setNext(y);
+    }
+    
+    if (y == head) {
+        head = x;
+    } else {
+        prevY.setNext(x);
+    }
+
+    Node temp = x.getNext();
+    x.setNext(y.getNext());
+    y.setNext(temp);
+    }
+
+
+    public static void main(String[] args) {
+    	SLinkedList list = new SLinkedList();	
+	list.addElement(128);
+	list.addElement(64);
+	list.addElement(32);
+	list.addElement(16);
+	list.addElement(8);
+	list.addElement(4);
+	list.addElement(2);
+	list.addElement(1);
+	list.showList();
+	System.out.print("\nAvant dernier : ");
+	System.out.println(list.findSecondLast().getElement());
+	System.out.println("\nListe à l'envers : ");	
+	list.reverse();
+	list.showList();
+	list.reverse();
+	list.exchange(list.head.getNext().getNext(), list.findSecondLast());
+	System.out.print("\nListe avec 4 et 64 et leurs références inversées : ");
+	list.showList();
     }
 }
 
