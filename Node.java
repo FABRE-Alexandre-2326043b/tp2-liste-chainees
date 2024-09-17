@@ -32,12 +32,8 @@ public class Node {
     public void showElement() {
     	if (next==null) {
     		System.out.println(element);
-    		//System.out.print(this);
     	}else {
  	   		System.out.println(Integer.toString(element) + " next " + Integer.toString(next.getElement()));
-    		//System.out.print(this);
-    		//System.out.print(" next ");
-    		//System.out.println(this.next);
     	}
     }    
 }
